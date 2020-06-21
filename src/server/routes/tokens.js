@@ -10,6 +10,12 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
+router.route('/:id').delete((req, res) => {
+  Token.findByIdAndDelete(req.params.id)
+    .then(() => res.status(204).json('Token deleted!'))
+    .catch(err => res.status(400).json(`Error: ${err}`))
+})
+
 router.route('/').post(async (req, res) => {
   const { user, pass } = req.body;
 
