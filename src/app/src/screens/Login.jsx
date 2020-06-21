@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
   },
   root: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
   },
 }));
 
@@ -22,12 +22,12 @@ const Login = () => {
 
   return (
     <Grid className={classes.root} container justify='center'
-      direction='row' alignItems='center' style={{ height: '100vh' }}>
-      <Grid item xs={12} md={4} lg={2} className={classes.root}>
+          direction='row' alignItems='center' style={{ height: '100vh' }}>
+      <Grid item xs={12} md={4} lg={2}>
         <Paper elevation={1}>
-          <form>
+          <form className={classes.root}>
             <Grid item xs={12}>
-              <FormControl required>
+              <FormControl required className={classes.fullwidth}>
                 <InputLabel htmlFor='login-name'>
                   Benutzername
                 </InputLabel>
@@ -38,7 +38,7 @@ const Login = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl required>
+              <FormControl required className={classes.fullwidth}>
                 <InputLabel htmlFor='login-pass'>
                   Passwort
                 </InputLabel>
@@ -49,7 +49,8 @@ const Login = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Button variant='contained' color='primary' onClick={handleSubmit}>
+              <Button variant='contained' color='primary' className={classes.fullwidth}
+                      onClick={handleSubmit}>
                 Einloggen
               </Button>
             </Grid>
