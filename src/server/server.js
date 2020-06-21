@@ -1,13 +1,14 @@
-import { btoa } from './utils/polyfills';
+const { btoa } = require('./utils/polyfills');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const usersRouter = require('./routes/users');
 const messagesRouter = require('./routes/messages');
+const { createURI } = require('./utils/connection');
 
 const app = express();
 const port = process.env.PORT || 5000;
-const uri = process.env.ATLAS_URI;
+const uri = createURI('nils', 'adminslin');
 
 require('dotenv').config();
 
@@ -15,6 +16,7 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+console.log(uri);
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }, (err) => {
   if (!err) console.log('Connection successful!');
 }).then(state => {
