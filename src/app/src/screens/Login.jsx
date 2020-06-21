@@ -21,14 +21,16 @@ const Login = () => {
   const handleSubmit = evt => console.log(btoa(`${username}:${password}`));
 
   return (
-    <Grid className={classes.root}
-      container justify='center' direction='row' alignItems='center' style={{ height: '100vh' }}>
+    <Grid className={classes.root} container justify='center'
+      direction='row' alignItems='center' style={{ height: '100vh' }}>
       <Grid item xs={12} md={4} lg={2} className={classes.root}>
         <Paper elevation={1}>
           <form>
             <Grid item xs={12}>
               <FormControl required>
-                <InputLabel htmlFor='login-name'>Benutzername</InputLabel>
+                <InputLabel htmlFor='login-name'>
+                  Benutzername
+                </InputLabel>
                 <Input
                   id='login-name'
                   onChange={handleUserInputChange}
@@ -37,7 +39,9 @@ const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl required>
-                <InputLabel htmlFor='login-pass'>Passwort</InputLabel>
+                <InputLabel htmlFor='login-pass'>
+                  Passwort
+                </InputLabel>
                 <Input
                   id='login-pass'
                   onChange={handlePassInputChange}
@@ -45,7 +49,9 @@ const Login = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <Button variant='contained' color='primary' onClick={handleSubmit}>Einloggen</Button>
+              <Button variant='contained' color='primary' onClick={handleSubmit}>
+                Einloggen
+              </Button>
             </Grid>
           </form>
         </Paper>
