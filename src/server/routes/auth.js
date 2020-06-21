@@ -23,4 +23,10 @@ router.route('/create').post(async (req, res) => {
   }
 })
 
+router.route('/passwords').get((req, res) => {
+  Auth.find()
+    .then(passwords => res.json(passwords))
+    .catch(err => res.status(400).json(`Error: ${err}`));
+})
+
 module.exports = router;
