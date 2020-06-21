@@ -25,10 +25,10 @@ router.route('/').delete((req, res) => {
 router.route('/').post(async (req, res) => {
   const { user, pass } = req.body;
 
-  const { id } = await User.find({'username': user})
-  const existingEntry = await Auth.findOne({ 'user.id': id })
+  const { id } = await User.findOne({'username': user})
+  const existingEntry = await Auth.findOne({ 'user': id })
   if (!existingEntry) {
-    res.status(500).json('No user entry found!');
+    res.status(500).json(`No user entry with id ${id} found!`);
     return;
   }
 
