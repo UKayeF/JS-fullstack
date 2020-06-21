@@ -17,15 +17,9 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
-console.log(uri);
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }, (err) => {
   if (!err) console.log('Connection successful!');
-}).then(state => {
-  const { connections: [ firstConnection] } = state;
-  const { user, pass } = firstConnection;
-
-  console.log(btoa(`${user}:${pass}`))
-})
+});
 
 const { connection } = mongoose;
 connection.once('open', () => {
