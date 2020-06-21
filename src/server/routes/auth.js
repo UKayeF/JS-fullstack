@@ -10,7 +10,7 @@ router.route('/create').post(async (req, res) => {
     const existingUser = await User.findOne({ username: user });
     const existingPasswordEntry = await Auth.findOne({ 'user.id': user.id })
     if (existingPasswordEntry) {
-      res.status(500).json('Error: password already exists!');
+      res.status(500).json('Password already exists!');
       return;
     }
     const newEntry = new Auth({ user: existingUser, pass });
