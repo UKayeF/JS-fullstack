@@ -16,10 +16,16 @@ router.route('/:id').delete((req, res) => {
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
+router.route('/').delete((req, res) => {
+  Token.deleteMany()
+    .then(() => res.status(204).json('All tokens deleted!'))
+    .catch(err => res.status(400).json(`Error: ${err}`));
+})
+
 router.route('/').post(async (req, res) => {
   const { user, pass } = req.body;
 
-  const { id } = await User.find({'user.username': user})
+  const { id } = await User.find({'username': user})
   const existingEntry = await Auth.findOne({ 'user.id': id })
   if (!existingEntry) {
     res.status(500).json('No user entry found!');
