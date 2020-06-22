@@ -64,8 +64,7 @@ const Login = () => {
                 <InputLabel htmlFor='login-pass'>
                   Passwort
                 </InputLabel>
-                <Input
-                  id='login-pass'
+                <Input id='login-pass' type='password'
                   onChange={handlePassInputChange}
                 />
               </FormControl>
