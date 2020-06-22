@@ -5,6 +5,7 @@ import './App.css';
 import Login from './screens/Login';
 import { createMuiTheme } from '@material-ui/core';
 import Home from './screens/Home';
+import Messages from './screens/Messages';
 
 const theme = createMuiTheme({
   palette: {
@@ -29,6 +30,9 @@ function App() {
           </Route>
           <Route path='/'>
             <Login/>
+          </Route>
+          <Route path='/messages'>
+            <Messages />
           </Route>
         </Switch>
       </Router>
