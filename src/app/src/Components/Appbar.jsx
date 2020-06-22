@@ -1,8 +1,9 @@
 import { AppBar, Button, Grid, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import SideDrawer from './SideDrawer';
 
 const useStyles = makeStyles({
   root: {
@@ -25,11 +26,13 @@ const Appbar = () => {
     localStorage.removeItem('username');
   }
   const goTo = path => () => history.push(path);
+  const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
+  const openSideDrawer = () => setSideDrawerOpen(true);
 
   return (
     <AppBar position='static'>
       <Toolbar>
-        <IconButton edge='start' className={classes.menuButton}>
+        <IconButton edge='start' className={classes.menuButton} onClick={openSideDrawer}>
           <Menu/>
         </IconButton>
         <Typography variant='h6' className={classes.title}>
@@ -49,6 +52,7 @@ const Appbar = () => {
         </Typography>
         <Button color='inherit' onClick={logout}>Ausloggen</Button>
       </Toolbar>
+      <SideDrawer open={sideDrawerOpen} setOpen={setSideDrawerOpen}/>
     </AppBar>
   )
 }
