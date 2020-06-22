@@ -5,6 +5,7 @@ import { Close, Mail, Reply } from '@material-ui/icons';
 import Appbar from '../Components/Appbar';
 import useMessages from '../hooks/useMessages';
 import { formatDatum } from '../utils/functions';
+import MessageInput from '../Components/MessageInput';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -69,9 +70,13 @@ const Messages = () => {
           <Mail />
         </Fab>
         <Drawer anchor='bottom' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-          <IconButton onClick={() => setDrawerOpen(false)}>
+          <IconButton onClick={() => {
+            setDrawerOpen(false);
+            setMailTo(null);
+          }}>
             <Close />
           </IconButton>
+          <MessageInput mailTo={mailTo} />
         </Drawer>
       </Grid>
     </div>
