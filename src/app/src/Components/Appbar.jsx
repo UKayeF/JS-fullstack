@@ -19,7 +19,11 @@ const useStyles = makeStyles({
 const Appbar = () => {
   const classes = useStyles();
   const history = useHistory();
-  const logout = () => history.push('/');
+  const logout = () => {
+    history.push('/');
+    localStorage.removeItem('auth-token');
+    localStorage.removeItem('username');
+  }
   const goTo = path => () => history.push(path);
 
   return (

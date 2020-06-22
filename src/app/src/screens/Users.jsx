@@ -25,9 +25,10 @@ const useStyles = makeStyles(theme => ({
 const Users = () => {
   const classes = useStyles();
   const users = useUsers();
+  const currentUser = localStorage.getItem('username');
   const friendUser = username => async () => {
     const data = {
-      user: localStorage.getItem('username'),
+      user: currentUser,
       contact: username,
     }
     const init = {
@@ -47,15 +48,19 @@ const Users = () => {
             (users || []).map(({ username, createdAt }, index) => (
               <ListItem key={index}>
                 <Card className={classes.fullwidth}>
-                  <CardHeader title={username}/>
+                  <CardHeader title={`${username}${username === currentUser ? ' (Du)' : ''}`}/>
                   <CardContent>
                     Mitglied seit <b>{formatDatum(createdAt)}</b>
                   </CardContent>
-                  <CardActions>
-                    <IconButton className={classes.floatRight} onClick={friendUser(username)}>
-                      <PersonAdd/>
-                    </IconButton>
-                  </CardActions>
+                  {
+                    username !== currentUser ? (
+                      <CardActions>
+                        <IconButton className={classes.floatRight} onClick={friendUser(username)}>
+                          <PersonAdd/>
+                        </IconButton>
+                      </CardActions>
+                    ) : null
+                  }
                 </Card>
               </ListItem>
             ))
