@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, Drawer, Grid, List, ListItem, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, CardHeader, Drawer, Fab, Grid, IconButton, List, ListItem, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Mail } from '@material-ui/icons';
+import { Close, Mail, Reply } from '@material-ui/icons';
 import Appbar from '../Components/Appbar';
 import useMessages from '../hooks/useMessages';
 import { formatDatum } from '../utils/functions';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+  },
+  floatRight: {
+    margin: '0 0 auto auto',
   },
   fullwidth: {
     width: '100%',
@@ -16,11 +19,18 @@ const useStyles = makeStyles({
   title: {
     flexGrow: 1,
   },
-})
+  newMail: {
+    position: 'fixed',
+    bottom: theme.spacing(3),
+    right: theme.spacing(2),
+  },
+}));
+
 const Messages = () => {
   const classes = useStyles();
   const messages = useMessages();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mailTo, setMailTo] = useState(null);
 
   return (
     <div>
@@ -28,7 +38,7 @@ const Messages = () => {
       <Grid container xs={12}>
         <List>
           {
-            (messages || []).map(({ from, to, title, body, createdAt }, index) => (
+            (messages || []).map(({ from, to, title, body, createdAt, incoming }, index) => (
               <ListItem key={index}>
                 <Card className={classes.fullwidth}>
                   <CardHeader avatar={<Mail/>} title={title}/>
@@ -38,13 +48,30 @@ const Messages = () => {
                     <br/>
                     <Typography variant='h6'>{body}</Typography>
                   </CardContent>
+                  {
+                    incoming ? (
+                      <CardActions>
+                        <IconButton className={classes.floatRight} onClick={() => {
+                          setMailTo(from);
+                          setDrawerOpen(true);
+                        }}>
+                          <Reply />
+                        </IconButton>
+                      </CardActions>
+                    ) : null
+                  }
                 </Card>
               </ListItem>
             ))
           }
         </List>
+        <Fab className={classes.newMail} color='primary' onClick={() => setDrawerOpen(true)}>
+          <Mail />
+        </Fab>
         <Drawer anchor='bottom' open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-
+          <IconButton onClick={() => setDrawerOpen(false)}>
+            <Close />
+          </IconButton>
         </Drawer>
       </Grid>
     </div>
