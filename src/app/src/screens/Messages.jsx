@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, Grid, List, ListItem } from '@material-ui/core';
+import React from 'react';
+import { Card, CardContent, CardHeader, Grid, List, ListItem, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Mail } from '@material-ui/icons';
 import Appbar from '../Components/Appbar';
-import Fetch from '../utils/Fetch';
 import useMessages from '../hooks/useMessages';
 
 const useStyles = makeStyles({
@@ -28,9 +27,13 @@ const Messages = () => {
         <List>
           {
             (messages || []).map(({from, to, title, body, createdAt}, index) => (
-              <ListItem key={index}>
-                <Card>
+              <ListItem key={index} >
+                <Card className={classes.fullwidth}>
                   <CardHeader avatar={<Mail />} title={title} />
+                  <CardContent>
+                    <Typography variant='subtitle1'>From: <b>{from}</b>, To: <b>{to || 'undefined'}</b></Typography>
+                    <Typography variant='h6'>{body}</Typography>
+                  </CardContent>
                 </Card>
               </ListItem>
             ))
