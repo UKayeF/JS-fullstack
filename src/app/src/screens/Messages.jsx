@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Mail } from '@material-ui/icons';
 import Appbar from '../Components/Appbar';
 import useMessages from '../hooks/useMessages';
-const { formatDatum } = require('../utils/functions');
+import { formatDatum } from '../utils/functions';
 
 const useStyles = makeStyles({
   root: {
