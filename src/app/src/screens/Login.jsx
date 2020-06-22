@@ -38,6 +38,7 @@ const Login = () => {
 
     const token = await new Fetch('tokens', init).fetch();
     localStorage.setItem('auth-token', token);
+    localStorage.setItem('username', username);
     history.push('/home');
   }
 
