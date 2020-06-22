@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Mail } from '@material-ui/icons';
 import Appbar from '../Components/Appbar';
 import useMessages from '../hooks/useMessages';
+const { formatDatum } = require('../utils/functions');
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +32,9 @@ const Messages = () => {
                 <Card className={classes.fullwidth}>
                   <CardHeader avatar={<Mail />} title={title} />
                   <CardContent>
+                    <Typography variant='subtitle1'>Datum: <b>{formatDatum(createdAt)}</b></Typography>
                     <Typography variant='subtitle1'>From: <b>{from}</b>, To: <b>{to || 'undefined'}</b></Typography>
+                    <br />
                     <Typography variant='h6'>{body}</Typography>
                   </CardContent>
                 </Card>
