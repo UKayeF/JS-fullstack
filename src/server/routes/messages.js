@@ -53,7 +53,7 @@ router.route('/').get(async (req, res) => {
       body: messages[index].body,
       title: messages[index].title,
       createdAt: messages[index].createdAt,
-      incoming: messages[index].from != id,
+      incoming: String(messages[index].from) !== String(id),
     })
   );
 
