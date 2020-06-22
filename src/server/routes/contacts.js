@@ -4,8 +4,17 @@ const User = require('../models/user.model');
 
 router.route('/').get(async (req, res) => {
   const { user } = req.query;
-  const { id } = await User.findOne({ username: user });
+  const userFromDB = await User.findOne({ username: user });
 
+  if(!user) {
+    Contact.find()
+      .then(contacts => res.json(contacts))
+      .catch(err => res.status(400).json(`Error: ${err}`))
+    return;
+  }
+
+
+  const { id } = userFromDB;
   const contacts = await Contact.find({ user: id });
   if (!contacts) {
     res.status(400).json('No contacts found!');
@@ -13,16 +22,28 @@ router.route('/').get(async (req, res) => {
   }
 
   const contactsOnly = contacts.map((_, index) => contacts[index].contact);
-  res.json(contactsOnly);
+  const contactNames = (await Promise.all(
+    contactsOnly.map(contactId => User.findById(contactId))
+  )).map(contact => contact && contact.username)
+
+  res.json(contactNames);
 })
 
 router.route('/').post(async (req, res) => {
   const { user, contact } = req.body;
-  const ownId = await User.findOne({ username: user });
-  const contactId = await User.findOne({ username: contact });
+  const ownUser = await User.findOne({ username: user });
+  const contactUser = await User.findOne({ username: contact });
 
-  const contactExistsAlready = await Contact.find({
-    $or: [{ user: ownId }, { contact: contactId }],
+  if (!ownUser || !contactUser){
+    res.status(400).json('User does not exist!');
+    return;
+  }
+
+  const ownId = ownUser.id;
+  const contactId = contactUser.id;
+
+  const contactExistsAlready = await Contact.findOne({
+    $or: [{ user: ownId, contact: contactId }, { user: contactId, contact: ownId }],
   })
   if (contactExistsAlready) {
     res.status(400).json('Contact exists already!');
@@ -32,18 +53,26 @@ router.route('/').post(async (req, res) => {
   const newContact = new Contact({ user: ownId, contact: contactId });
   const otherContact = new Contact({ user: contactId, contact: ownId });
 
-  Contact.insertMany(newContact, otherContact)
+  Contact.insertMany([newContact, otherContact])
     .then(() => res.json('Contacts registered!'))
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
 router.route('/').delete(async (req, res) => {
   const { user, contact } = req.body;
-  const ownId = await User.findOne({ username: user });
-  const contactId = await User.findOne({ username: contact });
+  const ownUser = await User.findOne({ username: user });
+  const contactUser = await User.findOne({ username: contact });
 
-  const contactExistsAlready = await Contact.find({
-    $or: [{ user: ownId }, { contact: contactId }],
+  if (!ownUser || !contactUser){
+    res.status(400).json('User does not exist!');
+    return;
+  }
+
+  const ownId = ownUser.id;
+  const contactId = contactUser.id;
+
+  const contactExistsAlready = await Contact.findOne({
+    $or: [{ user: ownId, contact: contactId }, { user: contactId, contact: ownId }],
   })
   if (!contactExistsAlready) {
     res.status(400).json('Contact does not exist!');
@@ -56,3 +85,5 @@ router.route('/').delete(async (req, res) => {
     .then(() => res.json('Contact successfully deleted!'))
     .catch(err => res.status(400).json(`Error: ${err}`))
 })
+
+module.exports = router;
