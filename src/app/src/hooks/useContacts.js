@@ -9,8 +9,8 @@ export default function useContacts() {
     const fetchContacts = async () => {
       const username = localStorage.getItem('username');
       const init = { headers: abortController.signal }
-      const messages = await new Fetch(`contacts?user=${username}`, init).fetch();
-      setContacts(messages);
+      const fetchedContacts = await new Fetch(`contacts?user=${username}`, init).fetch();
+      setContacts(fetchedContacts);
     }
 
     if (contacts && !contacts.length) fetchContacts();
