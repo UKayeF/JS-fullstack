@@ -33,6 +33,11 @@ const Appbar = () => {
             Nachrichten
           </Button>
         </Typography>
+        <Typography variant='h6' className={classes.title}>
+          <Button color='inherit' onClick={goTo('/contacts')}>
+            Kontakte
+          </Button>
+        </Typography>
         <Button color='inherit' onClick={logout}>Ausloggen</Button>
       </Toolbar>
     </AppBar>
