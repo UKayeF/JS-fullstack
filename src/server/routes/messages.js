@@ -24,9 +24,32 @@ router.route('/').get(async (req, res) => {
 
   const { id } = await User.findById(matchingToken.user);
 
-  Message.find({ $or: [{ 'to': id }, { 'from': id }] })
-    .then(messages => res.json(messages))
-    .catch(err => res.status(400).json(`Error: ${err}`));
+  const messages = await Message.find({ $or: [{ 'to': id }, { 'from': id }] });
+  if (!messages) {
+    res.status(400).json(`Error: ${err}`);
+    return;
+  }
+
+  const usernames = await Promise.all(
+    messages.flatMap(({from, to}) => [
+      User.findById(from),
+      User.findById(to),
+    ])
+  )
+
+  const messagesWithUserNames = messages.map(
+    ({from, to, ...message}, index) => ({
+      from: (usernames[index*2] || {}).username,
+      fromId: messages[index].from,
+      to: (usernames[index*2+1] || {}).username,
+      toId: messages[index].toId,
+      body: messages[index].body,
+      title: messages[index].title,
+      createdAt: messages[index].createdAt,
+    })
+  );
+
+  res.json(messagesWithUserNames);
 })
 
 module.exports = router;
