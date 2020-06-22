@@ -31,6 +31,10 @@ router.route('/').get(async (req, res) => {
 
 router.route('/').post(async (req, res) => {
   const { user, contact } = req.body;
+  if (user === contact){
+    res.status(400).json('User cannot add himself as contact');
+    return;
+  }
   const ownUser = await User.findOne({ username: user });
   const contactUser = await User.findOne({ username: contact });
 
