@@ -6,6 +6,7 @@ const usersRouter = require('./routes/users');
 const messagesRouter = require('./routes/messages');
 const authRouter = require('./routes/auth')
 const tokenRouter = require('./routes/tokens');
+const contactsRouter = require('./routes/contacts');
 const { createURI } = require('./utils/connection');
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/users', usersRouter);
 app.use('/messages', messagesRouter);
 app.use('/auth', authRouter);
 app.use('/tokens', tokenRouter);
+app.use('/contacts', contactsRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
