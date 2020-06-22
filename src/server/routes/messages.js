@@ -3,10 +3,17 @@ const Message = require('../models/message.model');
 const Token = require('../models/token.model');
 const User = require('../models/user.model');
 
-router.route('/send').post((req, res) => {
+router.route('/send').post(async (req, res) => {
   const { from, to, title, body } = req.body;
+  const sender = await User.findOne({username: from})
+  const recipient = await User.findOne({username: to});
 
-  const newMessage = new Message({ from, to, title, body });
+  if (!sender || !recipient) {
+    res.status(400).json('Recipient/Sender not found!');
+    return;
+  }
+
+  const newMessage = new Message({ from: sender, to: recipient, title, body });
 
   newMessage.save()
     .then(() => res.json('Message sent!'))
