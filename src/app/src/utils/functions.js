@@ -1,3 +1,4 @@
 const getAuthToken = () => localStorage.getItem('auth-token');
+const dash = '—';
 
-module.exports = { getAuthToken };
+module.exports = { dash, getAuthToken };
