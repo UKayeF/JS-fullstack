@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, FormControl, Grid, Input, InputLabel, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Fetch from '../utils/Fetch';
 
 const useStyles = makeStyles(theme => ({
   fullwidth: {
@@ -18,7 +19,26 @@ const Login = () => {
 
   const handleUserInputChange = evt => setUsername(evt.target.value);
   const handlePassInputChange = evt => setPassword(evt.target.value);
-  const handleSubmit = evt => console.log(btoa(`${username}:${password}`));
+  const handleSubmit = async evt => {
+    const data = {
+      user: username,
+      pass: password,
+    };
+
+    const init = {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }
+
+    const token = await new Fetch('tokens', init).fetch();
+    localStorage.setItem('auth-token', token);
+    alert('Success!');
+
+  }
 
   return (
     <Grid className={classes.root} container justify='center'
