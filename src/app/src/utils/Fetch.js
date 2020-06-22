@@ -12,6 +12,7 @@ export default class Fetch {
     }
     catch (e) {
       console.warn(e);
+      return null;
     }
   }
 }
