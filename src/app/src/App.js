@@ -28,11 +28,11 @@ function App() {
           <Route path='/home'>
             <Home />
           </Route>
-          <Route path='/'>
-            <Login/>
-          </Route>
           <Route path='/messages'>
             <Messages />
+          </Route>
+          <Route path='/'>
+            <Login/>
           </Route>
         </Switch>
       </Router>
