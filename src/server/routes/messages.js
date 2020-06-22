@@ -25,7 +25,7 @@ router.route('/').get(async (req, res) => {
   const { id } = await User.findById(matchingToken.user);
 
   Message.find({ $or: [{ 'to': id }, { 'from': id }] })
-    .then(messages => res.json(messages.concat(id)))
+    .then(messages => res.json(messages))
     .catch(err => res.status(400).json(`Error: ${err}`));
 })
 
