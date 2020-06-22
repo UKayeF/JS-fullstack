@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, FormControl, Grid, Input, InputLabel, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Fetch from '../utils/Fetch';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   fullwidth: {
@@ -16,6 +17,7 @@ const Login = () => {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const handleUserInputChange = evt => setUsername(evt.target.value);
   const handlePassInputChange = evt => setPassword(evt.target.value);
@@ -36,8 +38,7 @@ const Login = () => {
 
     const token = await new Fetch('tokens', init).fetch();
     localStorage.setItem('auth-token', token);
-    alert('Success!');
-
+    history.push('/home');
   }
 
   return (
