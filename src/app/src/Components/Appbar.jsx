@@ -38,6 +38,11 @@ const Appbar = () => {
             Kontakte
           </Button>
         </Typography>
+        <Typography variant='h6' className={classes.title}>
+          <Button color='inherit' onClick={goTo('/users')}>
+            Benutzer
+          </Button>
+        </Typography>
         <Button color='inherit' onClick={logout}>Ausloggen</Button>
       </Toolbar>
     </AppBar>
